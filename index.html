@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INSTADRAMA</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="https://emojiapi.dev/api/v1/broken_heart/64.png">
+</head>
+<body>
+  <button id="themeToggle" class="theme-toggle" title="Cambiar tema"></button>
+  <div class="spinner-overlay" id="spinnerOverlay" hidden>
+    <div class="spinner"></div>
+  </div>
+  <div class="container">
+    <h1>💔 INSTADRAMA💔</h1>
+    <p class="sub">Descubre sin llorar (o sí) quién ya no está en tu lista de seguidores.</p>
+    <div id="errorMsg" class="error-msg" hidden></div>
+    <div class="form" id="dropZone">
+      <label id="labelOldFile">
+        📂 Lista anterior de seguidores (.json de Instagram):
+        <span id="oldFileInfo" class="file-info" style="display:none;"></span>
+        <div id="autoSaveInfo" class="auto-save-info" style="display:none;">
+          <span class="icon">💾</span> Se guardará automáticamente para la próxima comparación
+        </div>
+        <input type="file" id="fileOld" accept=".json">
+        <button type="button" id="changeOldFileBtn" style="display:none; margin-top:0.5rem;">Cambiar archivo</button>
+      </label>
+
+      <label>
+        🆕 Lista actual de seguidores (.json de Instagram):
+        <input type="file" id="fileNew" accept=".json">
+      </label>
+
+      <label id="labelFollowing" style="margin-top:1.2rem;">
+        🕊️ Lista de seguidos (opcional, .json de Instagram):
+        <input type="file" id="fileFollowing" accept=".json">
+      </label>
+      <div class="form-btns">
+        <button id="compareBtn">Compara y sufre </button>
+        <button id="resetBtn" type="button" class="reset-btn">Reiniciar</button>
+      </div>
+    </div>
+    <div id="results" hidden>
+      <div class="results-section deco-block">
+        <div class="deco-top">💖🌸✨</div>
+        <h2>💔 Te dejaron</h2>
+        <input type="text" id="searchLost" class="search-input" placeholder="Buscar usuario...">
+        <button id="downloadLostTxt" class="download-btn">Descargar .txt</button>
+        <button id="downloadLostCsv" class="download-btn">Descargar .csv</button>
+        <ul id="lostFollowers" class="followers-list"></ul>
+        <div class="deco-bottom">💐💔🎀</div>
+      </div>
+      <div class="results-section deco-block">
+        <div class="deco-top">💖🌸✨</div>
+        <h2>💖 Nuevos seguidores</h2>
+        <input type="text" id="searchNew" class="search-input" placeholder="Buscar usuario...">
+        <button id="downloadNewTxt" class="download-btn">Descargar .txt</button>
+        <button id="downloadNewCsv" class="download-btn">Descargar .csv</button>
+        <ul id="newFollowers" class="followers-list"></ul>
+        <div class="deco-bottom">🌷💖🎀</div>
+      </div>
+      <div class="results-section deco-block" id="notFollowBackSection" style="display:none;">
+        <div class="deco-top">💔🌷✨</div>
+        <h2>🙈 No te siguen de vuelta</h2>
+        <button id="downloadNotFollowBackTxt" class="download-btn">Descargar .txt</button>
+        <button id="downloadNotFollowBackCsv" class="download-btn">Descargar .csv</button>
+        <ul id="notFollowBackList" class="followers-list"></ul>
+        <div class="deco-bottom">💔🌸🎀</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
