@@ -267,16 +267,30 @@ async function extractFollowing(file) {
     reader.onload = () => {
       try {
         let content = JSON.parse(reader.result);
-        if (!Array.isArray(content)) {
+        
+        if (content.relationships_following && Array.isArray(content.relationships_following)) {
+          content = content.relationships_following;
+        }
+        else if (!Array.isArray(content)) {
           const arrProp = Object.values(content).find(v => Array.isArray(v));
           if (arrProp) content = arrProp;
         }
+        
         const usernames = content.map(entry => {
           try {
-            return {
-              username: entry.string_list_data[0].value.trim().toLowerCase(),
-              href: entry.string_list_data[0].href
-            };
+            if (entry.title) {
+              return {
+                username: entry.title.trim().toLowerCase(),
+                href: entry.string_list_data?.[0]?.href || `https://www.instagram.com/${entry.title}`
+              };
+            }
+            else if (entry.string_list_data?.[0]?.value) {
+              return {
+                username: entry.string_list_data[0].value.trim().toLowerCase(),
+                href: entry.string_list_data[0].href
+              };
+            }
+            return null;
           } catch {
             return null;
           }
@@ -361,8 +375,7 @@ setTheme(getThemePref());
 
 
 function getAvatarUrl(username) {
-  
-  return `https:
+  return `https://unavatar.io/instagram/${username}`;
 }
 
 
@@ -456,7 +469,7 @@ function showSavedListsInfo() {
       const parsed = JSON.parse(savedOldList);
       const count = Array.isArray(parsed) ? parsed.length : 
                    (parsed.followers ? parsed.followers.length : 0);
-      console.log('📊 Lista anterior guardada con ${count} seguidores');
+      console.log(`📊 Lista anterior guardada con ${count} seguidores`);
     } catch (e) {
       console.log('📊 Lista anterior guardada (formato no reconocido)');
     }
@@ -484,8 +497,8 @@ function updateOldFileInfo(info) {
   const fileOld = document.getElementById('fileOld');
   const changeOldFileBtn = document.getElementById('changeOldFileBtn');
   
-  oldFileInfo.innerHTML = '<span class="icon">✔️</span> ${info}';
+  oldFileInfo.innerHTML = `<span class="icon">✔️</span> ${info}`;
   oldFileInfo.style.display = '';
   fileOld.style.display = 'none';
   changeOldFileBtn.style.display = '';
-`}
+}
